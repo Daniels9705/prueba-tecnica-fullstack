@@ -12,3 +12,37 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// Modelo de usuario en Prisma
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(255)
+  email    String  @unique
+  password String
+  role     Role    @default(USER)
+  transactions Transaction[]
+}
+
+// Enumeración de roles
+enum Role {
+  USER
+  ADMIN
+}
+
+// Modelo de transacciones (ingresos y egresos)
+model Transaction {
+  id        Int     @id @default(autoincrement())
+  name      String? @db.VarChar(255)
+  amount    Int
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+// modelos de reportes
+model report {
+  id        Int     @id @default(autoincrement())
+  name      String? @db.VarChar(255)
+  amount    Int
+  createdAt DateTime @default(now())
+}
