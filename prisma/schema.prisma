@@ -32,17 +32,9 @@ enum Role {
 // Modelo de transacciones (ingresos y egresos)
 model Transaction {
   id        Int     @id @default(autoincrement())
-  name      String? @db.VarChar(255)
+  concept   String?  @db.VarChar(255)
   amount    Int
   createdAt DateTime @default(now())
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
-}
-
-// modelos de reportes
-model report {
-  id        Int     @id @default(autoincrement())
-  name      String? @db.VarChar(255)
-  amount    Int
-  createdAt DateTime @default(now())
 }

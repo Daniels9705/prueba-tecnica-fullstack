@@ -27,10 +27,9 @@ export default function Home() {
         </thead>
         <tbody>
           <tr className="border-t border-[#717171] hover:bg-slate-200">
-            <td>Alquiler</td>
-            <td>3000 COP</td>
-            <td>17/06/2024</td>
-            <td>Admin</td>
+            <td>Daniel</td>
+            <td>daniel@test.com</td>
+            <td>313313313</td>
             <td>
               <div className="flex justify-end gap-4 py-2">
                 <Link

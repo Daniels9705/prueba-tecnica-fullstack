@@ -1,33 +1,34 @@
-import { ApolloServer } from '@apollo/server';
-import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import { gql } from 'graphql-tag';
+//servidor apollo
+import { ApolloServer } from 'apollo-server-micro';
+import { typeDefs } from '../../graphql/schema';
+import { resolvers } from '../../graphql/resolvers';
+import { PrismaClient } from '@prisma/client';
+import Cors from 'micro-cors';
 
-const typeDefs = gql`
-  type Query {
-    users: [User!]!
-  }
+const cors = Cors();
 
-  type User {
-    name: String
-    username: String
-  }
-`;
+const prisma = new PrismaClient();
 
-const users = [{ name: 'Foo Bar', username: 'foobar' }];
-
-const resolvers = {
-  Query: {
-    users() {
-      return users;
-    },
-  },
-};
-
-export const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-const server = new ApolloServer({
-  schema,
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => ({ prisma }),
 });
 
-export default startServerAndCreateNextHandler(server);
+const startServer = apolloServer.start();
+
+
+export default cors(async function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return false;
+  }
+  await startServer;
+  await apolloServer.createHandler({ path: '/api/graphql' })(req, res);
+})
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
