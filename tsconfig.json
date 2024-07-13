@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/schema.ts", "graphql/resolvers.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/schema.js", "graphql/resolvers.ts"],
   "exclude": ["node_modules"]
 }

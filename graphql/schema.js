@@ -32,7 +32,18 @@ export const typeDefs = gql`
     transaction(id: Int!): Transaction
   }
 
+  type Mutation {
+    createUser(name: String!, email: String!, password: String!, role: Role!): User!
+    updateUser(id: Int!, name: String, email: String, password: String, role: Role): User!
+    deleteUser(id: Int!): User!
+
+    createTransaction(concept: String!, amount: Int!, userId: Int!): Transaction!
+    updateTransaction(id: Int!, concept: String, amount: Int!): Transaction!
+    deleteTransaction(id: Int!): Transaction!
+  }
+
   schema {
     query: Query
+    mutation: Mutation
   }
 `;
