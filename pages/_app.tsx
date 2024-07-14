@@ -1,5 +1,6 @@
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const client = new ApolloClient({
   uri: '/api/graphql',
@@ -8,14 +9,16 @@ const client = new ApolloClient({
 
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import Layout from "../components/Layout";
+import Layout from "./Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+    <UserProvider>
+      <ApolloProvider client={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
+    </UserProvider>
   ) 
 }

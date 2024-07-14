@@ -2,10 +2,13 @@ import Link from "next/link";
 import links from "@/config/links";
 import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider"
-import { ModeToggle } from "./theme-toggle-button";
-import VercelSVG from "./svg/vercelSVG";
+import { ModeToggle } from "../components/theme-toggle-button";
+import VercelSVG from "../components/svg/vercelSVG";
+import LoginLogout from "@/components/LoginLogout";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
+
+function Layout({ children }: { children: React.ReactNode }) {
 
   const pathname = usePathname()
    const [_, path0] = pathname?.split("/") || [];
@@ -40,16 +43,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       <span className="text-nowrap">{link.name}</span>
                   </Link>
               );
-            })}
+            })}            
+          <LoginLogout />
           </ul>
         </aside>
-        <div className="fixed right-4 top-4">
-          <ModeToggle />
-        </div>
         <main className="flex-grow flex justify-center items-center ">
           {children}
         </main>  
+        <div className="fixed right-4 top-4">
+          <ModeToggle />
+        </div>
       </div>
-    </ThemeProvider> 
+    </ThemeProvider>
   )
 }
+
+export default withPageAuthRequired(Layout)
