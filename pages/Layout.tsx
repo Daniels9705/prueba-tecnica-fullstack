@@ -5,13 +5,19 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ModeToggle } from "../components/theme-toggle-button";
 import VercelSVG from "../components/svg/vercelSVG";
 import LoginLogout from "@/components/LoginLogout";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
 function Layout({ children }: { children: React.ReactNode }) {
 
   const pathname = usePathname()
-   const [_, path0] = pathname?.split("/") || [];
+  const [_, path0] = pathname?.split("/") || [];
+
+  //obtener datos del usuario
+  const { error, isLoading, user } = useUser();
+  if (isLoading) return null;
+  if (error)return null;        
 
   return (
     <ThemeProvider
@@ -28,26 +34,32 @@ function Layout({ children }: { children: React.ReactNode }) {
 
           <ul className="flex flex-col gap-8">
             {links.map((link) => {
-              const LinkIcon = link.icon;
+              {
+                const LinkIcon = link.icon;
+
+                if(link.permission === user?.role || user?.role === 'ADMIN') {
                   return (              
-                  <Link 
+                    <Link 
                     key={link.href} 
                     href={link.href}
                     className={`${
                       `/${path0}` === link.href
-                        ? "border-[#0070f3] text-[#0070f3]"
-                        : ""
+                      ? "border-[#0070f3] text-[#0070f3]"
+                      : ""
                     } border-b-2 border-transparent hover:border-[#0070f3] hover:text-[#0070f3] flex items-center py-3 gap-4`}
                     >
                       <LinkIcon className="w-8" />
                       <span className="text-nowrap">{link.name}</span>
                   </Link>
-              );
+                  );
+                }
+
+              }
             })}            
-          <LoginLogout />
-          </ul>
-        </aside>
-        <main className="flex-grow flex justify-center items-center ">
+            <LoginLogout />
+            </ul>
+            </aside>
+            <main className="flex-grow flex justify-center items-center ">
           {children}
         </main>  
         <div className="fixed right-4 top-4">

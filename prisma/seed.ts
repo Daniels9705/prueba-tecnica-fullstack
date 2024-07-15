@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
@@ -7,24 +8,20 @@ async function main() {
     await prisma.user.deleteMany({})
     await prisma.transaction.deleteMany({})
 
-    const user = await prisma.user.create({
-        data: {
-            name: 'user',
-            email: 'user@example.com',
-            password: '123456',
-            role: 'USER',
-        }
-    })
+    //encriptar contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedAdminPassword = await bcrypt.hash('@Admin11', salt);
+
     const admin = await prisma.user.create({
         data: {
             name: 'admin',
             email: 'admin@example.com',
-            password: '123456',
+            password: hashedAdminPassword,
             role: 'ADMIN',
         }
     })
     
-    const transaction = await prisma.transaction.create({
+    /* const transaction = await prisma.transaction.create({
         data: {
             concept: 'concept',
             amount: 100,
@@ -34,7 +31,7 @@ async function main() {
                 }
             }
         }
-    })
+    }) */
 }
 
 main()

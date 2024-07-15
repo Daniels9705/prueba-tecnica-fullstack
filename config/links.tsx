@@ -5,19 +5,22 @@ const links = [
     name: "Ingresos y Egresos",
     description: "Sistema de gestión de ingresos y gastos",
     href: "/ingresos-egresos",
-    icon: NewspaperIcon
+    icon: NewspaperIcon,
+    permission: 'USER'
   },
   {
     name: "Usuarios",
     description: "Gestión de usuarios",
     href: "/usuarios",
-    icon: UserGroupIcon
+    icon: UserGroupIcon,
+    permission: 'ADMIN'
   },
   {
     name: "Reportes",
     description: "Reportes",
     href: "/reportes",
-    icon: PresentationChartBarIcon
+    icon: PresentationChartBarIcon,
+    permission: 'ADMIN'
   }
 ]
 
