@@ -7,7 +7,16 @@ export const resolvers = {
         //obtener un solo usuario
         user: async (_: any, { id }: { id: number }, context: any) => await context.prisma.user.findUnique({ where: { id } }),
         //obtener todas las transacciones
-        transactions: async () => await prisma.transaction.findMany(),
+        transactions: async () => await prisma.transaction.findMany({
+             include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+            },
+        }),
         //obtener una sola transacción
         transaction: async (_: any, { id }: { id: number }) => await prisma.transaction.findUnique({ where: { id } }),
 
@@ -43,22 +52,24 @@ export const resolvers = {
             });
         },
         // crear una nueva transacción
-        createTransaction: async (_: any, { concept, amount, userId }: { concept: string, amount: number, userId: number }) => {
+        createTransaction: async (_: any, { concept, amount, date, userId }: { concept: string, amount: number, date: string, userId: number }) => {
             return await prisma.transaction.create({
                 data: {
                     concept,
                     amount,
+                    date,
                     userId,
                 },
             });
         },
         // actualizar una transacción existente
-        updateTransaction: async (_: any, { id, concept, amount }: { id: number, concept?: string, amount?: number }) => {
+        updateTransaction: async (_: any, { id, concept, amount, date }: { id: number, concept?: string, amount?: number, date?: string }) => {
             return await prisma.transaction.update({
                 where: { id },
                 data: {
                     concept,
                     amount,
+                    date,
                 },
             });
         },

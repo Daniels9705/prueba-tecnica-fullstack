@@ -2,6 +2,7 @@
 import { gql } from 'apollo-server-micro';
 
 export const typeDefs = gql`
+
   type User {
     id: Int!
     name: String
@@ -20,6 +21,7 @@ export const typeDefs = gql`
     id: Int!
     concept: String
     amount: Int!
+    date: String!
     createdAt: String!
     userId: Int!
     user: User!
@@ -37,8 +39,8 @@ export const typeDefs = gql`
     updateUser(id: Int!, name: String, email: String, password: String, role: Role): User!
     deleteUser(id: Int!): User!
 
-    createTransaction(concept: String!, amount: Int!, userId: Int!): Transaction!
-    updateTransaction(id: Int!, concept: String, amount: Int!): Transaction!
+    createTransaction(concept: String!, amount: Int!, date: String!, userId: Int!): Transaction!
+    updateTransaction(id: Int!, concept: String, amount: Int!, date: String!,): Transaction!
     deleteTransaction(id: Int!): Transaction!
   }
 
