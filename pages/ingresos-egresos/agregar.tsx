@@ -1,58 +1,56 @@
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 // apollo client
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 
-const CREATE_TRANSACTION = gql`
-  mutation CreateTransaction($input: TransactionInput!) {
-    createTransaction(input: $input) {
-      concept
-      amount
-      userId
-    }
-  }
-`;
-//
+import { CREATE_TRANSACTION } from '@/graphql/apollo-client/mutations';
 
-export default function agregar() {
+export default function Agregar() {
+  
+  // obtener datos del usuario
+  const { error, isLoading, user } = useUser();
+  if (isLoading) return null;
+  if (error) return null;
+  
+  // estados para el formulario
+  const [concept, setConcept] = useState('');
+  const [amount, setAmount] = useState('' as any as Number);
+  const [date, setDate] = useState('');
 
-  const [formData, setFormData] = useState({
-    concept: '',
-    amount: '',
-    userId: 1, // Aquí deberías obtener el userId de alguna manera, por ejemplo del contexto del usuario logueado
-  });
-
+  // estatus del formulario para mostrar notificaciones al cliente
+  const [formStatus, setFormStatus] = useState({
+    loading: false,
+    error: false,
+    success: false
+  })
+  
+  // apollo client
   const [createTransaction] = useMutation(CREATE_TRANSACTION);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+  // submit del formulario
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault();   
+    
+    setFormStatus({ loading: true, error: false, success: false });
+
     try {
-      await createTransaction({ variables: { input: formData } });
-      console.log('Transaction created successfully');
+      await createTransaction({ variables: { concept, amount, date, userId: user?.userId } });
+      setFormStatus({ loading: false, error: false, success: true });
+      setTimeout(() => {
+        window.location.replace('/ingresos-egresos');
+      }, 500);
     } catch (error) {
       console.error('Error creating transaction', error);
+      setFormStatus({ loading: false, error: true, success: false });
     }
   };
 
-  return <>
+  return (
     <div className="w-full h-full p-24">
       <h1 className="text-3xl">Sistema de gestión de Ingresos y Gastos</h1>
 
@@ -62,28 +60,58 @@ export default function agregar() {
             <CardTitle>Nuevo Movimiento de Dinero</CardTitle>
           </CardHeader>
           <CardContent className="mt-4">
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="concept">Concepto</Label>
-                  <Input id="concept" name="concept" placeholder="Concepto" />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="amount">Name</Label>
-                  <Input id="amount" name="amount" type="number" placeholder="Monto" />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="date">Fecha</Label>
-                  <Input id="date" name="date" type="date" placeholder="Fecha" />
-                </div>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="concept">Concepto</Label>
+                <Input 
+                  value={concept}
+                  onChange={(e) => setConcept(e.target.value)} 
+                  id="concept" 
+                  name="concept" 
+                  type="text"
+                  placeholder="Concepto" />
               </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="amount">Monto</Label>
+                <Input 
+                  value={amount as any as string}
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  id="amount" 
+                  name="amount" 
+                  type="number" 
+                  placeholder="Monto" />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="date">Fecha</Label>
+                <Input 
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  id="date" 
+                  name="date" 
+                  type="date" 
+                  placeholder="Fecha" />
+              </div>
+            </div>
           </CardContent>
+          {
+            formStatus.error && (
+              <div className="w-full text-center text-red-500 text-sm">
+                <span>Error al crear el movimiento</span>
+              </div>
+            )            
+          }
+          {
+            formStatus.success && (
+              <div className="w-full text-center text-green-500 text-sm">
+                <span>Movimiento creado exitosamente</span>                
+              </div>
+            )
+          }
           <CardFooter className="flex justify-end mt-4">
             <Button type="submit">Crear</Button>
           </CardFooter>
         </Card>
       </form>
-      
     </div>
-  </>;
+  );
 }
-

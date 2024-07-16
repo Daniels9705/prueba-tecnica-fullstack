@@ -27,6 +27,8 @@ const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session:
 
   // Añadir el rol del usuario a la sesión
   session.user.role = dbUser.role;
+  // Añadir el id del usuario (base de datos) a la sesión
+  session.user.userId = dbUser.id;  
 
   return session;
 };

@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 async function main() {
 
     //borrar datos de la base de datos
-    await prisma.user.deleteMany({})
     await prisma.transaction.deleteMany({})
+    await prisma.user.deleteMany({})
 
     //encriptar contraseña
     const salt = await bcrypt.genSalt(10);
@@ -20,18 +20,6 @@ async function main() {
             role: 'ADMIN',
         }
     })
-    
-    /* const transaction = await prisma.transaction.create({
-        data: {
-            concept: 'concept',
-            amount: 100,
-            user: {
-                connect: {
-                    id: user.id
-                }
-            }
-        }
-    }) */
 }
 
 main()
