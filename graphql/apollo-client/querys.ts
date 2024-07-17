@@ -14,12 +14,13 @@ export const GET_USERS = gql`
 
 // Query para obtener un solo usuario por ID
 export const GET_USER = gql`
-  query GetUser($id: Int!) {
-    user(id: $id) {
+  query User($userId: Int!) {
+    user(id: $userId) {
       id
       name
       email
       role
+      phone
     }
   }
 `;

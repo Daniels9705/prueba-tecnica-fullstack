@@ -1,36 +1,14 @@
 import { gql } from '@apollo/client';
 
-// Mutación para crear un nuevo usuario
-export const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $email: String!, $password: String!, $role: String!) {
-    createUser(name: $name, email: $email, password: $password, role: $role) {
-      id
-      name
-      email
-      role
-    }
-  }
-`;
-
 // Mutación para actualizar un usuario existente
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id: Int!, $name: String, $email: String, $password: String, $role: String) {
-    updateUser(id: $id, name: $name, email: $email, password: $password, role: $role) {
+  mutation Mutation($updateUserId: Int!, $name: String, $email: String, $phone: String, $role: Role) {
+    updateUser(id: $updateUserId, name: $name, email: $email, phone: $phone, role: $role) {
       id
       name
       email
+      phone
       role
-    }
-  }
-`;
-
-// Mutación para eliminar un usuario
-export const DELETE_USER = gql`
-  mutation DeleteUser($id: Int!) {
-    deleteUser(id: $id) {
-      id
-      name
-      email
     }
   }
 `;
