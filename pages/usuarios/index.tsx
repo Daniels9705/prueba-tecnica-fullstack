@@ -54,11 +54,6 @@ export default function Home() {
           ))}
         </tbody>
       </table>
-
-      {/* total */}
-      <div className="mt-8 pt-4 flex justify-end border-t border-[#717171]">
-        <span className="text-xl font-medium"> Total: 3000 COP</span>
-      </div>
       
     </div>
   </>;
