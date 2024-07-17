@@ -1,29 +1,28 @@
 import { useRouter } from 'next/router';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import DeleteButton from '@/components/DeleteTransactionButton';
 
 // Apollo Client
 import { useMutation, useQuery } from '@apollo/client';
 import { useState, useEffect } from 'react';
 // Queries & Mutations
-import { GET_TRANSACTION } from '@/graphql/apollo-client/querys';
-import { UPDATE_TRANSACTION } from '@/graphql/apollo-client/mutations';
+import { GET_USER } from '@/graphql/apollo-client/querys';
+import { UPDATE_USER } from '@/graphql/apollo-client/mutations';
 
 export default function Agregar() {
   // Obtener datos del usuario
-  const { error: authError, isLoading: authLoading, user } = useUser();
   const router = useRouter();
   const { id } = router.query;
-  const transactionId = parseInt(id as string, 10);
+  const userId = parseInt(id as string, 10);
 
   // Estados para el formulario
-  const [concept, setConcept] = useState('');
-  const [amount, setAmount] = useState<number>(0);
-  const [date, setDate] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [role, setRole] = useState('');
 
   // Estatus del formulario para mostrar notificaciones al cliente
   const [formStatus, setFormStatus] = useState({
@@ -33,105 +32,116 @@ export default function Agregar() {
   });
 
   // Apollo Client hooks
-  const [updateTransaction] = useMutation(UPDATE_TRANSACTION);
-  const { data, loading: queryLoading, error: queryError } = useQuery(GET_TRANSACTION, {
-    variables: { transactionId: transactionId },
+  const [updateTransaction] = useMutation(UPDATE_USER);
+  const { data, loading: queryLoading, error: queryError } = useQuery(GET_USER, {
+    variables: { userId: userId },
     skip: !id, // Omitir la consulta si no hay id
   });
 
   // Manejar la actualización del formulario cuando los datos están cargados
   useEffect(() => {
     if (data) {
-      setConcept(data.transaction.concept);
-      setAmount(data.transaction.amount); 
-      setDate(data.transaction.date);
+      setName(data.user.name);
+      setEmail(data.user.email);
+      setPhone(data.user.phone);
+      setRole(data.user.role);      
     }
   }, [data]);
 
   // Verificar si hay errores en la autenticación o en la consulta
-  if (authLoading || queryLoading) return <p>Cargando...</p>;
-  if (authError) return <p>Error al cargar el usuario: {authError.message}</p>;
-  if (queryError) return <p>Error al cargar la transacción: {queryError.message}</p>;
+  if (queryLoading) return <p>Cargando...</p>;
+  if (queryError) return <p>Error al cargar el usuario: {queryError.message}</p>;
 
   // Submit del formulario
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!confirm('¿Estás seguro de editar esta transacción?')) return;
+    if (!confirm('¿Estás seguro de editar este usuario?')) return;
     setFormStatus({ loading: true, error: false, success: false });
     try {
       if (id) {
         // Actualizar la transacción existente
-        await updateTransaction({ variables: { updateTransactionId: transactionId, concept, amount, date } });
+        await updateTransaction({ variables: { updateUserId: userId, name, email, phone, role } });
       }
       setFormStatus({ loading: false, error: false, success: true });
       setTimeout(() => {
-        window.location.replace('/ingresos-egresos');
+        window.location.replace('/usuarios');
       }, 1000);
     } catch (error) {
-      console.error('Error al procesar la transacción', error);
+      console.error('Error al editar usuario', error);
       setFormStatus({ loading: false, error: true, success: false });
     }
   };
 
   return (
     <div className="w-full h-full p-24">
-      <h1 className="text-3xl">Sistema de gestión de Ingresos y Gastos</h1>
+      <h1 className="text-3xl">Gestión Usuarios</h1>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col justify-center gap-4 mt-8">
         <Card className="w-[750px]">
           <CardHeader>
-            <CardTitle>Editar movimiento</CardTitle>
+            <CardTitle>Editar usuario</CardTitle>
           </CardHeader>
           <CardContent className="mt-4">
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="concept">Concepto</Label>
+                <Label htmlFor="concept">Nombre</Label>
                 <Input
-                  value={concept}
-                  onChange={(e) => setConcept(e.target.value)}
-                  id="concept"
-                  name="concept"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  id="name"
+                  name="name"
                   type="text"
-                  placeholder="Concepto" />
+                  placeholder="Nombre" />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="amount">Monto</Label>
+                <Label htmlFor="email">E-mail</Label>
                 <Input
-                  value={amount as any as string}
-                  onChange={(e) => setAmount(Number(e.target.value))}
-                  id="amount"
+                  id="email"
                   name="amount"
-                  type="number"
-                  placeholder="Monto" />
+                  type="email"
+                  value={email}
+                  readOnly
+                  placeholder="E-mail" />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="date">Fecha</Label>
+                <Label htmlFor="date">Teléfono</Label>
                 <Input
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  id="date"
-                  name="date"
-                  type="date"
-                  placeholder="Fecha" />
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  id="phone"
+                  name="phone"
+                  type="number"
+                  placeholder="Teléfono" />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="date">Teléfono</Label>
+                <Select value={role} onValueChange={(value) => setRole(value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Rol" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ADMIN">Admin</SelectItem>
+                    <SelectItem value="USER">Usuario</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardContent>
           {
             formStatus.error && (
               <div className="w-full text-center text-red-500 text-sm">
-                <span>Error al editar el movimiento</span>
+                <span>Error al editar el usuario</span>
               </div>
             )            
           }
           {
             formStatus.success && (
               <div className="w-full text-center text-green-500 text-sm">
-                <span>Movimiento editado exitosamente</span>   
+                <span>Usuario editado exitosamente</span>   
               </div>
             )
           }
           <CardFooter className="flex justify-between mt-4">
-            <DeleteButton id={transactionId}/>
             <Button type="submit">Guardar cambios</Button>
           </CardFooter>
         </Card>

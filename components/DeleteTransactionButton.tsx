@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { DELETE_TRANSACTION } from '@/graphql/apollo-client/mutations';
 
-export default function DeleteButton({id} : {id: number}) {
+export default function DeleteTransactionButton({id} : {id: number}) {
    // apollo client
    const [deleteTransaction] = useMutation(DELETE_TRANSACTION);
    

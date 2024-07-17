@@ -57,7 +57,7 @@ export default function Agregar() {
       <form onSubmit={handleSubmit} className="w-full flex flex-col justify-center gap-4 mt-8">
         <Card className="w-[750px]">
           <CardHeader>
-            <CardTitle>Nuevo Movimiento de Dinero</CardTitle>
+            <CardTitle>Nuevo movimiento</CardTitle>
           </CardHeader>
           <CardContent className="mt-4">
             <div className="grid w-full items-center gap-4">
