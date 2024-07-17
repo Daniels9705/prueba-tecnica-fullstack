@@ -34,12 +34,13 @@ export const resolvers = {
             });
         },
         // actualizar un usuario existente
-        updateUser: async (_: any, { id, name, email, password, role }: { id: number, name?: string, email?: string, password?: string, role?: any }) => {
+        updateUser: async (_: any, { id, name, email, phone, password, role }: { id: number, name?: string, email?: string, phone?: string, password?: string, role?: any }) => {
             return await prisma.user.update({
                 where: { id },
                 data: {
                     name,
                     email,
+                    phone,
                     password,
                     role,
                 },

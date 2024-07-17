@@ -7,7 +7,8 @@ export const typeDefs = gql`
     id: Int!
     name: String
     email: String!
-    password: String! 
+    phone: String
+    password: String!
     role: Role!
     transactions: [Transaction!]!
   }
@@ -36,7 +37,7 @@ export const typeDefs = gql`
 
   type Mutation {
     createUser(name: String!, email: String!, password: String!, role: Role!): User!
-    updateUser(id: Int!, name: String, email: String, password: String, role: Role): User!
+    updateUser(id: Int!, name: String, email: String, phone: String, password: String, role: Role): User!
     deleteUser(id: Int!): User!
 
     createTransaction(concept: String!, amount: Int!, date: String!, userId: Int!): Transaction!
