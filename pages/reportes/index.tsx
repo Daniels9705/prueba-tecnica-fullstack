@@ -1,5 +1,8 @@
 import ChartData from "@/components/ChartData";
-export default function Home() {
+
+import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
+
+export default withPageAuthRequired( function Home() {
 
   return <>
     <div className="w-full h-full p-24">
@@ -11,4 +14,4 @@ export default function Home() {
       <ChartData />        
     </div>
   </>;
-}
+})

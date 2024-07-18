@@ -4,8 +4,9 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "../../graphql/apollo-client/querys";
 
+import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
-export default function Home() {
+export default withPageAuthRequired(function Home() {
   const { error, isLoading, user } = useUser();
   const { data, loading, error: errorApollo } = useQuery(GET_USERS);
   
@@ -57,4 +58,4 @@ export default function Home() {
       
     </div>
   </>;
-}
+})

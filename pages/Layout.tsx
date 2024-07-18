@@ -14,8 +14,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   //obtener datos del usuario
   const { error, isLoading, user } = useUser();
-  if (isLoading) return null;
-  if (error)return null;        
+  if (isLoading) return <div>Cargando...</div>;
+  if (error)return <div>Error</div>;        
 
   return (
     <ThemeProvider

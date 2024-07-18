@@ -10,7 +10,9 @@ import { useState } from 'react';
 
 import { CREATE_TRANSACTION } from '@/graphql/apollo-client/mutations';
 
-export default function Agregar() {
+import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
+
+export default withPageAuthRequired( function Agregar() {
   
   // obtener datos del usuario
   const { error, isLoading, user } = useUser();
@@ -114,4 +116,4 @@ export default function Agregar() {
       </form>
     </div>
   );
-}
+})
