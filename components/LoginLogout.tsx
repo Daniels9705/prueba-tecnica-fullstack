@@ -4,9 +4,8 @@ import { PowerIcon, UserIcon } from "@heroicons/react/24/outline";
 export default function LoginLogout() {
 
     //obtener datos del usuario
-    const { error, isLoading, user } = useUser();
-    if (isLoading) return null;
-    if (error)return null;     
+    const { isLoading, user } = useUser();
+    if (isLoading) return null;  
     
     return (
     <>
