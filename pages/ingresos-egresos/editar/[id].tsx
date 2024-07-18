@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import DeleteButton from '@/components/DeleteTransactionButton';
 
 // Apollo Client
@@ -15,9 +14,7 @@ import { UPDATE_TRANSACTION } from '@/graphql/apollo-client/mutations';
 
 import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
-export default withPageAuthRequired( function Agregar() {
-  // Obtener datos del usuario
-  const { error: authError, isLoading: authLoading, user } = useUser();
+function Editar() {
   const router = useRouter();
   const { id } = router.query;
   const transactionId = parseInt(id as string, 10);
@@ -51,8 +48,6 @@ export default withPageAuthRequired( function Agregar() {
   }, [data]);
 
   // Verificar si hay errores en la autenticación o en la consulta
-  if (authLoading || queryLoading) return <p>Cargando...</p>;
-  if (authError) return <p>Error al cargar el usuario: {authError.message}</p>;
   if (queryError) return <p>Error al cargar la transacción: {queryError.message}</p>;
 
   // Submit del formulario
@@ -140,4 +135,9 @@ export default withPageAuthRequired( function Agregar() {
       </form>
     </div>
   );
-})
+}
+
+export default withPageAuthRequired( Editar );
+
+//Export sin auth para tensting
+export { Editar }

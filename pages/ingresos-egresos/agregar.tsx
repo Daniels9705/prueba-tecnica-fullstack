@@ -12,7 +12,7 @@ import { CREATE_TRANSACTION } from '@/graphql/apollo-client/mutations';
 
 import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
-export default withPageAuthRequired( function Agregar() {
+function Agregar() {
   
   // obtener datos del usuario
   const { isLoading, user } = useUser();
@@ -115,4 +115,9 @@ export default withPageAuthRequired( function Agregar() {
       </form>
     </div>
   );
-})
+}
+
+export default withPageAuthRequired( Agregar );
+
+// exportar Agregar sin autenticación para testing
+export { Agregar };

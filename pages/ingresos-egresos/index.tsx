@@ -6,7 +6,7 @@ import { GET_TRANSACTIONS } from "../../graphql/apollo-client/querys";
 
 import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
-export default withPageAuthRequired( function Home() {
+function TransactionsPage() {
   //obtener datos del usuario
   const { isLoading, user } = useUser();
   const { data, loading, error: errorApollo } = useQuery(GET_TRANSACTIONS);
@@ -80,4 +80,10 @@ export default withPageAuthRequired( function Home() {
       </div>      
     </div>
   </>;
-})
+}
+
+export default withPageAuthRequired(TransactionsPage);
+
+// Exportar TransactionsPage sin autenticación para testing
+export { TransactionsPage };
+
