@@ -30,19 +30,23 @@
 1. **Tener el proyecto en un respositorio de github**
 
 2. **setear usuario administrador**
+
    - En la ruta `prisma/seed.ts` debes setear el correo que usaras como administrador. 
 
 2. **Configurar base de datos**
+
    - Crear un nuevo proyecto en [Supabase](https://supabase.com/) y obtener las credenciales `URI` con Display connection pooler en `mode:Session`.
    - Setea las credenciales en la variable de entorno `DATABASE_URL` del archivo `.env`
    - Migrar las tablas con el comando `npm prisma migrate dev --name init`
    - Cargar los seeder (usuario administrador) con el comando `npx prisma db seed`
 
 3. **Configurar autenticación Auth0**
-   - Crear un nuevo proyecto en auth0 y obtener las cedenciales.
+
+   - Crear un nuevo proyecto en [Auth0](https://auth0.com/) y obtener las cedenciales.
     
 
 4. **Desplegar**
+
    - Crear el nuevo proyecto en vercel y seleccionar el repositorio con el proyecto.
    - seleccionar `Next.js` como framework preset
    - setear una por una las variables de entorno:
@@ -53,6 +57,10 @@
     `AUTH0_CLIENT_ID`
     `AUTH0_CLIENT_SECRET`
    - *Desplegar*
+
+5. **Cofiguración final**
+    - Editar la variable de entorno `AUTH0_BASE_URL` en vercel y cambia su valor al nuevo dominio de tu proyecto en vercel
+    - Editar las variables `Allowed Callbacks URL's` y `Allowed Logout URL's`  en el proyecto de [Auth0](https://auth0.com/)
 
 
 
