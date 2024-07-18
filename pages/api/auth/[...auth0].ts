@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
-  /* const { user } = session;
+  const { user } = session;
   const userEmail = user.email;
     
   //verifica si el usuario ya existe en la base de datos y lo guarda en una variable
@@ -28,7 +28,7 @@ const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session:
   // Añadir el rol del usuario a la sesión
   session.user.role = dbUser.role;
   // Añadir el id del usuario (base de datos) a la sesión
-  session.user.userId = dbUser.id;   */
+  session.user.userId = dbUser.id;  
 
   return session;
 };
