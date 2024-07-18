@@ -2,7 +2,7 @@ import { handleAuth, handleCallback, Session } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 
-/* const prisma = new PrismaClient(); */
+const prisma = new PrismaClient();
 
 const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
   /* const { user } = session;
