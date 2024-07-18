@@ -66,7 +66,7 @@ export default function Agregar() {
       setFormStatus({ loading: false, error: false, success: true });
       setTimeout(() => {
         window.location.replace('/ingresos-egresos');
-      }, 1000);
+      }, 100);
     } catch (error) {
       console.error('Error al procesar la transacción', error);
       setFormStatus({ loading: false, error: true, success: false });

@@ -14,6 +14,7 @@ export default function Home() {
   const isAdmin = user?.role === 'ADMIN';
   const transactions = data.transactions;
 
+  // sumar los movimientos
   const totalAmount = transactions.reduce((total: number, transaction: any) => {
     return total + transaction.amount;
   }, 0);

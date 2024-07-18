@@ -65,7 +65,7 @@ export default function Agregar() {
       setFormStatus({ loading: false, error: false, success: true });
       setTimeout(() => {
         window.location.replace('/usuarios');
-      }, 1000);
+      }, 100);
     } catch (error) {
       console.error('Error al editar usuario', error);
       setFormStatus({ loading: false, error: true, success: false });
@@ -141,7 +141,7 @@ export default function Agregar() {
               </div>
             )
           }
-          <CardFooter className="flex justify-between mt-4">
+          <CardFooter className="flex justify-end mt-4">
             <Button type="submit">Guardar cambios</Button>
           </CardFooter>
         </Card>
