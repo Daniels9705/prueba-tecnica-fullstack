@@ -8,9 +8,8 @@ export default function Home() {
   const { theme } = useTheme()
   
   //obtener datos del usuario
-  const { error, isLoading, user } = useUser();
+  const { isLoading, user } = useUser();
   if (isLoading) return null;
-  if (error)return null;  
 
   return <>
     <div className="flex gap-8">

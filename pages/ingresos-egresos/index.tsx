@@ -8,10 +8,10 @@ import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
 export default withPageAuthRequired( function Home() {
   //obtener datos del usuario
-  const { error, isLoading, user } = useUser();
+  const { isLoading, user } = useUser();
   const { data, loading, error: errorApollo } = useQuery(GET_TRANSACTIONS);
   
-  if (isLoading || loading || error || errorApollo) return null;
+  if (isLoading || loading || errorApollo) return null;
 
   const isAdmin = user?.role === 'ADMIN';
   const transactions = data.transactions;

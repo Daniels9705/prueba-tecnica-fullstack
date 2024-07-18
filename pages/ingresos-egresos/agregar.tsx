@@ -15,9 +15,8 @@ import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 export default withPageAuthRequired( function Agregar() {
   
   // obtener datos del usuario
-  const { error, isLoading, user } = useUser();
+  const { isLoading, user } = useUser();
   if (isLoading) return null;
-  if (error) return null;
   
   // estados para el formulario
   const [concept, setConcept] = useState('');

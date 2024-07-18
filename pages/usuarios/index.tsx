@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlusIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "../../graphql/apollo-client/querys";
@@ -7,10 +7,10 @@ import { GET_USERS } from "../../graphql/apollo-client/querys";
 import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
 
 export default withPageAuthRequired(function Home() {
-  const { error, isLoading, user } = useUser();
+  const { isLoading, user } = useUser();
   const { data, loading, error: errorApollo } = useQuery(GET_USERS);
   
-  if (isLoading || loading || error || errorApollo) return null;
+  if (isLoading || loading || errorApollo) return null;
 
   const isAdmin = user?.role === 'ADMIN';
   const users = data.users

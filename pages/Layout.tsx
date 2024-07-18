@@ -13,9 +13,8 @@ function Layout({ children }: { children: React.ReactNode }) {
   const [_, path0] = pathname?.split("/") || [];
 
   //obtener datos del usuario
-  const { error, isLoading, user } = useUser();
-  if (isLoading) return <div>Cargando...</div>;
-  if (error)return <div>Error</div>;        
+  const { isLoading, user } = useUser();
+  if (isLoading) return <div>Cargando...</div>;    
 
   return (
     <ThemeProvider
