@@ -2,20 +2,20 @@
 
 ## Como desplegar el proyecto localmente.
 1. **Instalar dependencias**
-  - `npm install` en la terminal
+   - `npm install` en la terminal
 
 2. **setear usuario administrador**
-  - En la ruta `prisma/seed.ts` debes setear el correo que usaras como administrador. 
+   - En la ruta `prisma/seed.ts` debes setear el correo que usaras como administrador. 
 
 2. **Configurar base de datos**
-  - Crear una nueva base de datos en tu instalacion local de postgres y obtener las cedenciales.
-  - Setea las credenciales en la variable de entorno `DATABASE_URL` del archivo `.env`
-  - Migrar las tablas con el comando `npm prisma migrate dev --name init`
-  - Cargar los seeder (usuario administrador) con el comando `npx prisma db seed`
+   - Crear una nueva base de datos en tu instalacion local de postgres y obtener las cedenciales.
+   - Setea las credenciales en la variable de entorno `DATABASE_URL` del archivo `.env`
+   - Migrar las tablas con el comando `npm prisma migrate dev --name init`
+   - Cargar los seeder (usuario administrador) con el comando `npx prisma db seed`
 
 3. **Configurar autenticación Auth0**
-  - Crear un nuevo proyecto en auth0 y obtener las cedenciales.
-  - setear las credenciales en las variables de entorno del archivo `.env`:
+   - Crear un nuevo proyecto en auth0 y obtener las cedenciales.
+   - setear las credenciales en las variables de entorno del archivo `.env`:
     `AUTH0_SECRET=''`
     `AUTH0_BASE_URL='http://localhost:3000'`
     `AUTH0_ISSUER_BASE_URL=''`
@@ -23,36 +23,36 @@
     `AUTH0_CLIENT_SECRET=''`
 
 4. **Iniciar cliente**
-  - `npm run dev` en la terminal
+   - `npm run dev` en la terminal
 
 
 ## Como desplegar el proyecto en vercel/supabase.
 1. **Tener el proyecto en un respositorio de github**
 
 2. **setear usuario administrador**
-  - En la ruta `prisma/seed.ts` debes setear el correo que usaras como administrador. 
+   - En la ruta `prisma/seed.ts` debes setear el correo que usaras como administrador. 
 
 2. **Configurar base de datos**
-  - Crear un nuevo proyecto en [Supabase](https://supabase.com/) y obtener las credenciales `URI` con Display connection pooler en `mode:Session`.
-  - Setea las credenciales en la variable de entorno `DATABASE_URL` del archivo `.env`
-  - Migrar las tablas con el comando `npm prisma migrate dev --name init`
-  - Cargar los seeder (usuario administrador) con el comando `npx prisma db seed`
+   - Crear un nuevo proyecto en [Supabase](https://supabase.com/) y obtener las credenciales `URI` con Display connection pooler en `mode:Session`.
+   - Setea las credenciales en la variable de entorno `DATABASE_URL` del archivo `.env`
+   - Migrar las tablas con el comando `npm prisma migrate dev --name init`
+   - Cargar los seeder (usuario administrador) con el comando `npx prisma db seed`
 
 3. **Configurar autenticación Auth0**
-  - Crear un nuevo proyecto en auth0 y obtener las cedenciales.
+   - Crear un nuevo proyecto en auth0 y obtener las cedenciales.
     
 
 4. **Desplegar**
-  - Crear el nuevo proyecto en vercel y seleccionar el repositorio con el proyecto.
-  - seleccionar `Next.js` como framework preset
-  - setear una por una las variables de entorno:
+   - Crear el nuevo proyecto en vercel y seleccionar el repositorio con el proyecto.
+   - seleccionar `Next.js` como framework preset
+   - setear una por una las variables de entorno:
     `DATABASE_URL`
     `AUTH0_SECRET`
     `AUTH0_BASE_URL`
     `AUTH0_ISSUER_BASE_URL`
     `AUTH0_CLIENT_ID`
     `AUTH0_CLIENT_SECRET`
-  - *Desplegar*
+   - *Desplegar*
 
 
 
