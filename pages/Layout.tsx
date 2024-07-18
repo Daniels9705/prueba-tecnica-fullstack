@@ -7,8 +7,6 @@ import VercelSVG from "../components/svg/vercelSVG";
 import LoginLogout from "@/components/LoginLogout";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-import { withPageAuthRequired,  } from "@auth0/nextjs-auth0/client";
-
 function Layout({ children }: { children: React.ReactNode }) {
 
   const pathname = usePathname()
@@ -70,4 +68,4 @@ function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default withPageAuthRequired(Layout)
+export default Layout
